@@ -1,2 +1,2 @@
 # Mathculator
-A useful calculator with python and Tkinter.
+A dark theme calculator with python and tkinter.
