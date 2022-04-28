@@ -1,10 +1,10 @@
-from distutils.command.clean import clean
 from tkinter import *
 
-from help import clear, equalpress, press
+# globaly declare the expression variable
+expression = ""
 
 class Mathculator():
-
+  # setup the screen
   def window(self):
     self.gui = Tk()
     self.gui.configure(bg="black")
@@ -12,19 +12,22 @@ class Mathculator():
     self.gui.geometry("600x250")
     self.gui.resizable(0, 0) #disable resize ability
 
-
+  # welcome section 
   def greeting(self):
     # the event function of btn
     def hide():
       text.place_forget() #hide the text
       btn.place_forget() #hide the button 
+      # run the calculator method
       self.calculator()
 
+    # welcome text
     text = Label(self.gui, 
     text="Welcome to Mathculator", 
     bg="black", 
     fg="#FF6F61")
 
+    # Let's play button
     btn = Button(self.gui, 
     text="Let's start the app!", 
     bg="black", 
@@ -33,15 +36,43 @@ class Mathculator():
     borderwidth="4",
     command=hide)
 
+    # customize the welcome text
     text.configure(font=("TerminalVector", 14))
     text.place(x=150, y=100)
     
+    # customize the Let's play button
     btn.configure(font=("TerminalVector", 13))
     btn.place(x=170, y=150)
-   
+
+  # calculator section
   def calculator(self):
     # create an instance to work with entry
     equation = StringVar()
+
+    # function to update the expression
+    def press(num):
+      global expression
+      expression = expression + str(num)
+      equation.set(expression)
+
+    # function to evaluate the final expression
+    def equalpress():
+      try:
+        global expression
+        total = str(eval(expression)) 
+        equation.set(total)
+
+        expression = ""
+      except:
+        equation.set("Error!")
+        expression = ""  
+
+    # function to clear the contents of the entry
+    def clear():
+      global expression
+      expression = ""
+      equation.set("")
+
     # the entry
     input = Entry(self.gui, 
     textvariable=equation, 
@@ -230,8 +261,7 @@ class Mathculator():
     btn_division.configure(font=("TerminalVector", 14))
     btn_division.place(x=470, y=160)
 
-
+  # run the program
   def run(self):
     self.greeting()
-    # run the window
     self.gui.mainloop()
